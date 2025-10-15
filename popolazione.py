@@ -81,20 +81,20 @@ class Popolazione:
 
         
     def next_generation_elitism(self, elite=2, parents_pool=10, mut_prob=0.1, mut_sigma=0.2):
-        # 0) limiti sani
+    
         elite = max(1, min(elite, self.num_of_ships))
         parents_pool = max(elite, min(parents_pool, self.num_of_ships))
 
-        # 1) ordina SOLO la generazione corrente per score (niente Hall of Fame)
+    
         ranked = sorted(self.players, key=lambda p: p.score, reverse=True)
-        campioni = ranked[:elite]             # élite della *generazione corrente*
+        campioni = ranked[:elite]            
         genitori = ranked[:parents_pool]  
-        print(f"punteggio migliore: {ranked[0].score}")    # pool di genitori della *generazione corrente*
+        print(f"punteggio migliore: {ranked[0].score}")   
 
-        # 2) crea la nuova popolazione
+       
         new_players = []
 
-        # 2a) élite clonati (elitismo "puro")
+      
         for p in campioni:
             clone = player.Car(color=p.color, x=self.bordo_x//2, y=self.bordo_y//2)
             clone.brain = p.brain.clone()
@@ -105,7 +105,7 @@ class Popolazione:
             clone.velocity_y = 0
             new_players.append(clone)
 
-        # 2b) figli da crossover + mutate usando solo la generazione corrente
+     
         import random
         while len(new_players) < self.num_of_ships:
             mom, dad = random.sample(genitori, 2) if len(genitori) > 1 else (genitori[0], genitori[0])
@@ -116,7 +116,6 @@ class Popolazione:
             child.brain = mom.brain.crossover(dad.brain)
             child.brain.mutate(prob=mut_prob, sigma=mut_sigma)
 
-            # reset stato
             child.score = 0
             child.alive = True
             child.velocity_x = 0
@@ -124,6 +123,6 @@ class Popolazione:
 
             new_players.append(child)
 
-        # 3) sostituisci popolazione + reset flag
         self.players = new_players
         self.estinta = False
+
