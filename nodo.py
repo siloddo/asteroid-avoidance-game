@@ -104,11 +104,12 @@ class Brain:
         return [n.output for n in self.nodi if n.layer==2]
 rete = Brain(16, 14, 4)
 
-# 2. Visione finta (esempio): 8 distanze a caso tra 0 e 500
 
 
+
             
             
             
+
 
                 
