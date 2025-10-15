@@ -57,7 +57,7 @@ class Car:
 
             self.score+=1
                                 # +1 per frame vivo
-            self.score += 0.01 * d_min           # bonus stare lontano (scala a piacere)
+            self.score += 0.01 * d_min           
             self.score -= 10 * (abs(self.velocity_x)+abs(self.velocity_y) < 0.1)  # punisci stare fermo
             
         
@@ -84,11 +84,11 @@ class Car:
             hit = True
 
         if hit:
-            self.score -= 30000        # penalità singola
-        # facoltativo: rimbalzo/damping per “staccarli” dal bordo
+            self.score -= 30000    
+       
             self.velocity_x *= -0.3
             self.velocity_y *= -0.3
-            self.border_cooldown = 10  # ~10 frame di “invulnerabilità” al bordo
+            self.border_cooldown = 10 
             self.alive=False
 
     def collisione(self, asteroide):
@@ -117,25 +117,25 @@ class Car:
 
         for ast in asteroidi:
             r = pygame.Rect(ast.x, ast.y, ast.width, ast.height)
-            #clipped è il segmento tra le due coppie di punti
-            clipped = r.clipline((ox, oy), (ex, ey))  # se intersecano, restituisce il segmento tagliato
+           
+            clipped = r.clipline((ox, oy), (ex, ey)) 
             if clipped:
-                # clipped è ((ix1,iy1),(ix2,iy2)); scegli il punto più vicino all’origine
+               
                 (ix1, iy1), (ix2, iy2) = clipped
-                # prendi il punto “ingresso”
+              
                 ix, iy = (ix1, iy1) if (ix1-ox)**2 + (iy1-oy)**2 <= (ix2-ox)**2 + (iy2-oy)**2 else (ix2, iy2)
                 d = math.hypot(ix - ox, iy - oy)
                 if d < min_d:
                     min_d = d
                     hit_end = (ix, iy)
-        rect_world = screen.get_rect()                     # rettangolo: (0,0,w,h)
+        rect_world = screen.get_rect()                  
         clipped_w = rect_world.clipline((ox, oy), (ex, ey))
         if clipped_w:
             (wx1, wy1), (wx2, wy2) = clipped_w
-            # scegli l’estremo che NON è l'origine (ox,oy): è il punto d'impatto col muro
+           
             d1 = (wx1 - ox)**2 + (wy1 - oy)**2
             d2 = (wx2 - ox)**2 + (wy2 - oy)**2
-            wx, wy = (wx1, wy1) if d1 > d2 else (wx2, wy2)   # quello più lontano dall'origine (l'altro è ~0)
+            wx, wy = (wx1, wy1) if d1 > d2 else (wx2, wy2)   
             d_wall = math.hypot(wx - ox, wy - oy)
             if d_wall < min_d:
                 min_d = d_wall
@@ -190,6 +190,7 @@ class Car:
         
         
         
+
 
 
 
